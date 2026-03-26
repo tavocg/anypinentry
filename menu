@@ -1,0 +1,100 @@
+#!/bin/sh
+# shellcheck shell=sh
+
+MENU="${MENU:-bemenu}"
+
+font="JetbrainsMono Medium"
+font_size="12"
+col_white="#ebdbb2" # White
+col_sb="#7fbbb3"    # Selected background
+col_sf="#1e2326"    # Selected foreground
+col_nb="#1e2326"    # Normal background
+col_nf="#374145"    # Normal foreground
+
+_help() {
+  printf "Usage: menu [run/dmenu/pass] [prompt...]\nDefault backend: %s\n" "$MENU"
+}
+
+_args="$*"
+
+case "$_args" in
+*"-h"*)
+  _help
+  exit 0
+  ;;
+"")
+  _help
+  exit 0
+  ;;
+esac
+
+MODE="$1"
+PROMPT="${_args#*"$MODE" }"
+
+if [ "$MODE" = "$PROMPT" ]; then
+  PROMPT=
+fi
+
+case "$MODE" in
+run) ;;
+dmenu) ;;
+pass) ;;
+*)
+  echo "Unknown mode '$MODE'" >>/dev/stderr
+  exit 1
+  ;;
+esac
+
+_bemenu() {
+  if [ "$PROMPT" ]; then
+    prompt_flag="-p"
+  fi
+
+  case "$MODE" in
+  run) run="-run" ;;
+  pass) pass="-x" ;;
+  esac
+
+  # shellcheck disable=SC2086
+  bemenu"$run" \
+    $prompt_flag $PROMPT \
+    $pass \
+    --no-exec -i -c \
+    -l 10 -W 0.4 -B 2 -H 30 --cw 1 \
+    --tb "$col_sb" --tf "$col_sf" \
+    --fb "$col_nb" --ff "$col_nf" \
+    --cb "$col_nb" --cf "$col_white" \
+    --nb "$col_nb" --nf "$col_nf" \
+    --hb "$col_sb" --hf "$col_sf" \
+    --ab "$col_nb" --af "$col_nf" \
+    --bdr "$col_sb" \
+    --fn "$font $font_size"
+}
+
+_dmenu() {
+  if [ "$PROMPT" ]; then
+    prompt_flag="-p"
+  fi
+
+  case "$MODE" in
+  run) run="_run" ;;
+  # pass) pass="-P" ;; # Needs a patch
+  esac
+
+  # shellcheck disable=SC2086
+  dmenu"$run" \
+    $prompt_flag $PROMPT \
+    $pass \
+    -i \
+    -l 10 \
+    -nb "$col_nb" -nf "$col_nf" \
+    -sb "$col_sb" -sf "$col_sf" \
+    -fn "$font:size=$font_size"
+}
+
+if command -v _"$MENU" >/dev/null 2>&1; then
+  _"$MENU"
+else
+  echo "Unable to find menu backend for '$MENU'" >>/dev/stderr
+  exit 1
+fi

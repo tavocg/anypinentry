@@ -1,4 +1,7 @@
 # AnyPinentry
+This is a fork of [phenax/anypinentry](https://github.com/phenax/anypinentry),
+introducing support for a custom menu script with multiple menu backends.
+
 AnyPinentry is a wrapping interface to all kinds of prompts instead of gnupg's pinentry.
 You can now use any interface for password and confirmation prompts (`dmenu`, `rofi`, `read`, `systemd-ask-password`, `curses`, `etc`).
 
