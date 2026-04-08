@@ -3,13 +3,13 @@
 
 MENU="${MENU:-bemenu}"
 
-font="JetbrainsMono Medium"
-font_size="12"
-col_white="#ebdbb2" # White
-col_sb="#7fbbb3"    # Selected background
-col_sf="#1e2326"    # Selected foreground
-col_nb="#1e2326"    # Normal background
-col_nf="#374145"    # Normal foreground
+MENU_FONT="${MENU_FONT:-JetbrainsMono Medium}"
+MENU_FONT_SIZE="${MENU_FONT_SIZE:-12}"
+MENU_COL_WHITE="${MENU_COL_WHITE:-#ebdbb2}" # White
+MENU_COL_SB="${MENU_COL_SB:-#7fbbb3}"       # Selected background
+MENU_COL_SF="${MENU_COL_SF:-#1e2326}"       # Selected foreground
+MENU_COL_NB="${MENU_COL_NB:-#1e2326}"       # Normal background
+MENU_COL_NF="${MENU_COL_NF:-#374145}"       # Normal foreground
 
 _help() {
   printf "Usage: menu [run/dmenu/pass] [prompt...]\nDefault backend: %s\n" "$MENU"
@@ -61,14 +61,14 @@ _bemenu() {
     $pass \
     --no-exec -i -c \
     -l 10 -W 0.4 -B 2 -H 30 --cw 1 \
-    --tb "$col_sb" --tf "$col_sf" \
-    --fb "$col_nb" --ff "$col_nf" \
-    --cb "$col_nb" --cf "$col_white" \
-    --nb "$col_nb" --nf "$col_nf" \
-    --hb "$col_sb" --hf "$col_sf" \
-    --ab "$col_nb" --af "$col_nf" \
-    --bdr "$col_sb" \
-    --fn "$font $font_size"
+    --tb "$MENU_COL_SB" --tf "$MENU_COL_SF" \
+    --fb "$MENU_COL_NB" --ff "$MENU_COL_NF" \
+    --cb "$MENU_COL_NB" --cf "$MENU_COL_WHite" \
+    --nb "$MENU_COL_NB" --nf "$MENU_COL_NF" \
+    --hb "$MENU_COL_SB" --hf "$MENU_COL_SF" \
+    --ab "$MENU_COL_NB" --af "$MENU_COL_NF" \
+    --bdr "$MENU_COL_SB" \
+    --fn "$MENU_FONT $MENU_FONT_SIZE"
 }
 
 _dmenu() {
@@ -87,9 +87,9 @@ _dmenu() {
     $pass \
     -i \
     -l 10 \
-    -nb "$col_nb" -nf "$col_nf" \
-    -sb "$col_sb" -sf "$col_sf" \
-    -fn "$font:size=$font_size"
+    -nb "$MENU_COL_NB" -nf "$MENU_COL_NF" \
+    -sb "$MENU_COL_SB" -sf "$MENU_COL_SF" \
+    -fn "$MENU_FONT:size=$MENU_FONT_SIZE"
 }
 
 if command -v _"$MENU" >/dev/null 2>&1; then
