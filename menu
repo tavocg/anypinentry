@@ -52,7 +52,7 @@ _bemenu() {
 
   case "$MODE" in
   run) run="-run" ;;
-  pass) pass="-x" ;;
+  pass) pass="-x indicator" ;;
   esac
 
   # shellcheck disable=SC2086
