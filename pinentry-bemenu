@@ -22,8 +22,8 @@ error__password_mismatch="Passwords don't match";
 AP_YES="Yes";
 AP_NO="No";
 
-prompt_action='menu pass "$AP_PROMPT"';
-confirm_action='printf "%s\n%s" "$AP_YES" "$AP_NO" | menu dmenu "$AP_PROMPT"';
+prompt_action='bemenu -x indicator -p "$AP_PROMPT"';
+confirm_action='printf "%s\n%s" "$AP_YES" "$AP_NO" | bemenu -p "$AP_PROMPT"';
 display_error_action='notify-send -a "Pinentry" "$AP_ERROR"';
 
 # :: Prompt string (default if empty)
