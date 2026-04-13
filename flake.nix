@@ -1,5 +1,5 @@
 {
-  description = "anypinentry shell scripts";
+  description = "bemenu wrapper for pinentry";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -19,40 +19,34 @@
     in {
       packages = forAllSystems (pkgs:
         let
-          anypinentry = pkgs.stdenvNoCC.mkDerivation {
-          pname = "anypinentry";
+          pinentry-bemenu = pkgs.stdenvNoCC.mkDerivation {
+          pname = "pinentry-bemenu";
           version = "unstable";
           src = ./.;
           dontUnpack = true;
 
           installPhase = ''
-            install -Dm755 "$src/anypinentry" "$out/bin/anypinentry"
-            install -Dm755 "$src/menu" "$out/bin/menu"
-            ln -s "$out/bin/anypinentry" "$out/bin/pinentry"
+            install -Dm755 "$src/pinentry-bemenu" "$out/bin/pinentry-bemenu"
+            ln -s "$out/bin/pinentry-bemenu" "$out/bin/pinentry"
           '';
 
-          meta.mainProgram = "anypinentry";
+          meta.mainProgram = "pinentry-bemenu";
         };
 
         in {
-        default = anypinentry;
-        inherit anypinentry;
+        default = pinentry-bemenu;
+        inherit pinentry-bemenu;
       });
 
       apps = forAllSystems (pkgs: {
         default = {
         type = "app";
-        program = "${self.packages.${pkgs.system}.default}/bin/anypinentry";
+        program = "${self.packages.${pkgs.system}.default}/bin/pinentry-bemenu";
       };
 
-      anypinentry = {
+      pinentry-bemenu = {
         type = "app";
-        program = "${self.packages.${pkgs.system}.anypinentry}/bin/anypinentry";
-      };
-
-      menu = {
-        type = "app";
-        program = "${self.packages.${pkgs.system}.anypinentry}/bin/menu";
+        program = "${self.packages.${pkgs.system}.pinentry-bemenu}/bin/pinentry-bemenu";
       };
     });
   };
